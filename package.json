@@ -1,0 +1,19 @@
+{
+  "name": "learn-fastify",
+  "version": "1.0.0",
+  "description": "learn fastify",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "fastify": "^3.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+
+  "repository": "git@github.com:DreamerKing/learn-fastify.git",
+  "author": "DreamerKing",
+  "license": "MIT"
+}
