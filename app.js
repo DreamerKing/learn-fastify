@@ -1,9 +1,31 @@
+require('dotenv-safe').config();
 const routes = require('./hello');
+const test = require('./test');
+const mgroute = require('./mg');
 const app = require('fastify')({
-    logger: true
+    logger: true,
+    ignoreTrailingSlash: true,
+    caseSensitive: false,
+    requestIdHeader: 'r-id',
+    requestIdLogLabel: 'r-id'
 });
 
-app.register(routes);
+app.register(require('fastify-mongodb'),{
+        forceClose: true,
+        url: process.env.MONGO_URI,
+        name: 'mongo'
+    })
+   .route(test)
+   .register(mgroute)
+   .register(routes, { prefix: '/v1'})
+   .after(err => {
+       console.log(err);
+       console.log('插件加载完了');
+   })
+   .ready(err => {
+       console.log('ready');
+       console.log(app.printRoutes());
+   });
 
 /* app.get('/', async (req, rep) => {
     rep.send({ hello: 'world'});
@@ -15,7 +37,7 @@ app.listen(3000, (err, address) => {
     }
     app.log.info(`Server listening on ${address}`);
 })
- */
+*/
 
 /*  app.get('/', async (req, rep) => {
      return { hello: 'world' };
